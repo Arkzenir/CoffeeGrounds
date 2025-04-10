@@ -1,0 +1,8 @@
+{
+  "name": "Forest",
+  "elevationRanges": [
+    { "min": 0.0, "max": 0.4, "color": "#228B22" },
+    { "min": 0.4, "max": 0.7, "color": "#006400" },
+    { "min": 0.7, "max": 1.0, "color": "#013220" }
+  ]
+}

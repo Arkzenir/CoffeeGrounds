@@ -1,0 +1,9 @@
+{
+  "features": [
+    { "file": "hill.json", "x": 30, "y": 30, "minElevation": 0.2 },
+    { "file": "mountain.json", "x": 120, "y": 20, "minElevation": 0.5 },
+    { "file": "crater.json", "x": 80, "y": 70, "maxElevation": 0.6 },
+    { "file": "lake.json", "x": 150, "y": 80, "maxElevation": 0.4 },
+    { "file": "plateau.json", "x": 50, "y": 50 }
+  ]
+}

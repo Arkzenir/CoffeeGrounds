@@ -1,8 +1,9 @@
+
 package Generator.Options;
 
-import Generator.Features.FeaturePlacement;
+import Generator.Placements.FeaturePlacement;
 import java.util.List;
 
-public class GenerationOptions {
+public class FeaturePlacementConfig {
     public List<FeaturePlacement> features;
 }

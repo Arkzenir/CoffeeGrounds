@@ -1,3 +1,4 @@
+
 package Generator.Options;
 
 public class TerrainConfig {
@@ -5,10 +6,8 @@ public class TerrainConfig {
     public int height;
     public String biomeDirectory;
     public String featureDirectory;
-    public String placementConfigPath;
-
-    // generation mode, seed, etc.
+    public String biomePlacementPath;
+    public String featurePlacementPath;
     public String generatorType = "simple";
-    public long seed = System.currentTimeMillis();  // Default to random
-
+    public long seed = System.currentTimeMillis();
 }
