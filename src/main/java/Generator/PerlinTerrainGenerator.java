@@ -3,25 +3,24 @@ package Generator;
 import Generator.Interfaces.ITerrainGenerator;
 import Generator.Options.TerrainConfig;
 
-import java.util.Random;
-
-public class SimpleTerrainGenerator implements ITerrainGenerator {
+public class PerlinTerrainGenerator implements ITerrainGenerator {
     private TerrainConfig config;
-    private Random rand;
+    private PerlinNoise perlin;
 
-    public SimpleTerrainGenerator(TerrainConfig config) {
+    public PerlinTerrainGenerator(TerrainConfig config) {
         this.config = config;
-        this.rand = new Random(config.seed);
+        this.perlin = new PerlinNoise(config.seed);
     }
 
     @Override
     public TerrainData generate() {
         TerrainData data = new TerrainData(config.width, config.height);
 
+        float scale = 0.1f;
         for (int x = 0; x < config.width; x++) {
             for (int y = 0; y < config.height; y++) {
-                float height = rand.nextFloat();  // Random elevation
-                data.setHeight(x, y, height);
+                float noise = perlin.noise(x * scale, y * scale);
+                data.setHeight(x, y, noise);
             }
         }
 
