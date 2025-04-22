@@ -1,4 +1,4 @@
 package Generator.Interfaces;
 
-public interface IBiome {
+public interface IAddition {
 }

@@ -20,6 +20,8 @@ public class PerlinTerrainGenerator implements ITerrainGenerator {
         for (int x = 0; x < config.width; x++) {
             for (int y = 0; y < config.height; y++) {
                 float noise = perlin.noise(x * scale, y * scale);
+                noise = (noise - 0.5f) * config.depth;
+                if (y%5 == 0) System.out.print("noise at " + y + ": " + noise);
                 data.setHeight(x, y, noise);
             }
         }

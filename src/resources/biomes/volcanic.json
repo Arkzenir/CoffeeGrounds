@@ -1,8 +1,4 @@
 {
   "name": "Volcanic",
-  "elevationRanges": [
-    { "min": 0.0, "max": 0.5, "color": "#2b2b2b" },
-    { "min": 0.5, "max": 0.8, "color": "#5a5a5a" },
-    { "min": 0.8, "max": 1.0, "color": "#ff4500" }
-  ]
+  "color": "#f95e1d"
 }

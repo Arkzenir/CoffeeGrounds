@@ -1,6 +1,7 @@
 package Generator;
 
 import Generator.Features.JsonFeature;
+import Generator.Interfaces.IAdditionFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class FeatureFactory {
+public class FeatureFactory implements IAdditionFactory {
     public static JsonFeature loadFromFile(String filepath) {
         ObjectMapper mapper = new ObjectMapper();
         try (InputStream stream = FeatureFactory.class.getClassLoader().getResourceAsStream(filepath)) {
@@ -22,6 +23,7 @@ public class FeatureFactory {
         }
     }
 
+    //Possibly deprecated
     public static List<JsonFeature> loadAllFromDirectory(String dirPath) {
         List<JsonFeature> features = new ArrayList<>();
         try {

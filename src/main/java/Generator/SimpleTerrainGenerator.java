@@ -20,7 +20,7 @@ public class SimpleTerrainGenerator implements ITerrainGenerator {
 
         for (int x = 0; x < config.width; x++) {
             for (int y = 0; y < config.height; y++) {
-                float height = rand.nextFloat();  // Random elevation
+                float height = (rand.nextFloat() - 0.5f) * config.depth;  // Random elevation
                 data.setHeight(x, y, height);
             }
         }

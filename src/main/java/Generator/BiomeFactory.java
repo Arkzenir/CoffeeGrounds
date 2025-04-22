@@ -22,6 +22,7 @@ public class BiomeFactory {
         }
     }
 
+    //Possibly deprecated
     public static List<JsonBiome> loadAllFromDirectory(String dirPath) {
         List<JsonBiome> biomes = new ArrayList<>();
         try {

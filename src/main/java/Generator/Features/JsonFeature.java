@@ -1,8 +1,8 @@
 package Generator.Features;
 
-import Generator.Interfaces.ITerrainFeature;
+import Generator.Interfaces.IAddition;
 
-public class JsonFeature implements ITerrainFeature {
+public class JsonFeature implements IAddition {
     public String name;
     public int radius;
     public float elevationBoost;
