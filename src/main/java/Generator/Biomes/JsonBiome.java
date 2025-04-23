@@ -11,4 +11,8 @@ public class JsonBiome implements IAddition {
     public Color getColor() {
         return Color.decode(color);
     }
+
+    public String getName() {
+        return name;
+    }
 }

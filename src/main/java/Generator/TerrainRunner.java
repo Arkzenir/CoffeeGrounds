@@ -6,11 +6,12 @@ import Generator.Features.JsonFeature;
 import Generator.Interfaces.ITerrainGenerator;
 import Generator.Options.*;
 import Generator.Placements.*;
-import Utils.PlacementUtils;
-import Utils.TerrainAsImageExporter;
+import Utils.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class TerrainRunner {
@@ -60,8 +61,20 @@ public class TerrainRunner {
         }
 
         JsonBiome defaultBiome = biomeMask[0][0];  // fallback
-        TerrainAsImageExporter exporter = new TerrainAsImageExporter();
-        exporter.export(terrain, biomeMask, "output/terrain.png");
+
+        // --- Exporting ---
+        Path outputDir = Path.of("output");
+        Files.createDirectories(outputDir);
+
+        CompositeTerrainExporter exporter = new CompositeTerrainExporter();
+        exporter.addExporter(new TerrainAsImageExporter());
+        exporter.addExporter(new BiomeAsTextExporter());
+        exporter.addExporter(new BiomeAsJsonExporter());
+        exporter.addExporter(new BiomeAsImageExporter());
+        exporter.addExporter(new HeightmapAsTextExporter());
+        exporter.addExporter(new HeightmapAsImageExporter());
+
+        exporter.export(terrain, biomeMask, outputDir.toString());
 
         System.out.println("Terrain generation complete.");
     }
