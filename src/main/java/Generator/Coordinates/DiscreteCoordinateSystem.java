@@ -3,5 +3,7 @@ package Generator.Coordinates;
 import Generator.Interfaces.ICoordinateSystem;
 
 public class DiscreteCoordinateSystem implements ICoordinateSystem {
-    // MVP stub – maybe add grid translation later
+    public float toWorldX(int x) { return x; }
+    public float toWorldY(int y) { return y; }
+    public float toWorldZ(int z) { return z; }
 }

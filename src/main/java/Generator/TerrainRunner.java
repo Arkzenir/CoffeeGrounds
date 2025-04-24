@@ -1,12 +1,14 @@
 
 package Generator;
 
-import Generator.Biomes.JsonBiome;
-import Generator.Features.JsonFeature;
-import Generator.Interfaces.ITerrainGenerator;
+import Generator.Biomes.*;
+import Generator.Coordinates.*;
+import Generator.Features.*;
 import Generator.Options.*;
 import Generator.Placements.*;
 import Utils.*;
+import Generator.Interfaces.ICoordinateSystem;
+import Generator.Interfaces.ITerrainGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.FileNotFoundException;
@@ -22,7 +24,7 @@ public class TerrainRunner {
         TerrainConfig config;
         Path basePath;
 
-        // 1. Load the config from CLI or fallback to internal resource
+        // Load the config from CLI or fallback to internal resource
         if (args.length > 0) {
             Path configPath = Path.of(args[0]);
             config = mapper.readValue(Files.newInputStream(configPath), TerrainConfig.class);
@@ -36,12 +38,21 @@ public class TerrainRunner {
             basePath = Path.of(""); // current directory or empty since files will be internal
         }
 
-        Random random = new Random(config.seed);
-        ITerrainGenerator generator = switch (config.generatorType.toLowerCase()) {
-            case "perlin" -> new PerlinTerrainGenerator(config);
-            case "simple" -> new SimpleTerrainGenerator(config);
-            default -> throw new IllegalArgumentException("Unknown generator: " + config.generatorType);
-        };
+        // Explicit switch for coordinate system (Better demonstration compared to strategy class)
+        ICoordinateSystem coordinateSystem;
+        switch (config.coordinateSystem) {
+            case DISCRETE -> coordinateSystem = new DiscreteCoordinateSystem();
+            case CONTINUOUS -> coordinateSystem = new ContCoordinateSystem();
+            default -> throw new IllegalStateException("Unexpected value: " + config.coordinateSystem);
+        }
+
+        // Explicit switch for terrain generator (Better demonstration compared to strategy class)
+        ITerrainGenerator generator;
+        switch (config.generatorType) {
+            case PERLIN -> generator = new PerlinTerrainGenerator(config, coordinateSystem);
+            case SIMPLE -> generator = new SimpleTerrainGenerator(config, coordinateSystem);
+            default -> throw new IllegalStateException("Unexpected value: " + config.generatorType);
+        }
 
         TerrainData terrain = generator.generate();
 

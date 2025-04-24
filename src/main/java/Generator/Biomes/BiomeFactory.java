@@ -1,6 +1,5 @@
-package Generator;
+package Generator.Biomes;
 
-import Generator.Biomes.JsonBiome;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;

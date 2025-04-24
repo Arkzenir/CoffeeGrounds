@@ -16,18 +16,20 @@ public class TerrainAsImageExporter implements ITerrainExporter {
         int width = data.getWidth();
         int height = data.getHeight();
 
-        double minHeight = -data.getHeight() / 4.0;
-        double maxHeight = data.getHeight() / 4.0;
+        float min = Float.MAX_VALUE, max = -Float.MAX_VALUE;
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++) {
+                float v = data.getHeight(x, y);
+                if (v < min) min = v;
+                if (v > max) max = v;
+            }
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                double value = data.getHeight(x, y);
-                Color biomeColor = Color.MAGENTA;
-                if (biome[x][y] != null) biomeColor = biome[x][y].getColor();
-
-                Color adjustedColor = adjustBrightness(biomeColor, value, minHeight, maxHeight);
+                float value = data.getHeight(x, y);
+                Color biomeColor = (biome[x][y] != null) ? biome[x][y].getColor() : Color.MAGENTA;
+                Color adjustedColor = adjustBrightness(biomeColor, value, min, max);
                 image.setRGB(x, y, adjustedColor.getRGB());
             }
         }
@@ -46,9 +48,7 @@ public class TerrainAsImageExporter implements ITerrainExporter {
         normalized = Math.max(-1.0, Math.min(1.0, normalized));
 
         float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-        float brightness = hsb[2];
-
-        brightness += (float) (normalized * 0.2f);
+        float brightness = hsb[2] + (float) (normalized * 0.2f);
         brightness = Math.max(0f, Math.min(1f, brightness));
 
         return Color.getHSBColor(hsb[0], hsb[1], brightness);

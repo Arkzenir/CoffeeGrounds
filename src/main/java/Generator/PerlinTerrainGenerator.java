@@ -1,28 +1,42 @@
 package Generator;
 
+import Generator.Interfaces.ICoordinateSystem;
 import Generator.Interfaces.ITerrainGenerator;
 import Generator.Options.TerrainConfig;
 
 public class PerlinTerrainGenerator implements ITerrainGenerator {
-    private TerrainConfig config;
-    private PerlinNoise perlin;
+    private final TerrainConfig config;
+    private final PerlinNoise perlin;
+    private final ICoordinateSystem coordinateSystem;
 
-    public PerlinTerrainGenerator(TerrainConfig config) {
+    public PerlinTerrainGenerator(TerrainConfig config, ICoordinateSystem coordinateSystem) {
         this.config = config;
         this.perlin = new PerlinNoise(config.seed);
+        this.coordinateSystem = coordinateSystem;
     }
+
 
     @Override
     public TerrainData generate() {
-        TerrainData data = new TerrainData(config.width, config.height);
+        TerrainData data = new TerrainData(config.width, config.height, config.depth, coordinateSystem);
 
-        float scale = 0.1f;
+        // Increase scale for discrete systems to force more noise variability
+        float scale = (coordinateSystem instanceof Generator.Coordinates.DiscreteCoordinateSystem) ? 0.2f : 0.1f;
+
         for (int x = 0; x < config.width; x++) {
             for (int y = 0; y < config.height; y++) {
-                float noise = perlin.noise(x * scale, y * scale);
-                noise = (noise - 0.5f) * config.depth;
-                if (y%5 == 0) System.out.print("noise at " + y + ": " + noise);
-                data.setHeight(x, y, noise);
+                float worldX = coordinateSystem.toWorldX(x) * scale;
+                float worldY = coordinateSystem.toWorldY(y) * scale;
+
+                float noise = perlin.noise(worldX, worldY); // 0..1
+                float heightF = (noise - 0.5f) * config.depth;
+
+                // Snap to .0 for discrete terrain
+                if (coordinateSystem instanceof Generator.Coordinates.DiscreteCoordinateSystem) {
+                    heightF = (float) Math.floor(heightF);
+                }
+
+                data.setHeight(x, y, heightF);
             }
         }
 

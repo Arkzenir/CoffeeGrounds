@@ -1,5 +1,6 @@
-
 package Generator.Options;
+
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class TerrainConfig {
     public int width;
@@ -9,6 +10,13 @@ public class TerrainConfig {
     public String featureDirectory;
     public String biomePlacementPath;
     public String featurePlacementPath;
-    public String generatorType = "simple";
+    public GeneratorType generatorType = GeneratorType.SIMPLE;
+    public CoordinateSystemType coordinateSystem = CoordinateSystemType.CONTINUOUS;
     public long seed = System.currentTimeMillis();
+
+    //Set seed randomly if none or zero
+    @JsonSetter("seed")
+    public void setSeed(long seed) {
+        this.seed = seed != 0L ? seed : System.currentTimeMillis();
+    }
 }

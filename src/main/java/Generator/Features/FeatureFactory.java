@@ -1,6 +1,5 @@
-package Generator;
+package Generator.Features;
 
-import Generator.Features.JsonFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
