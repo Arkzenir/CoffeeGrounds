@@ -1,37 +1,27 @@
 package Generator;
 
-import Generator.Interfaces.ICoordinateSystem;
-
 public class TerrainData {
-    public float[][] heightMap;
+    public int[][] heightMap;
     private final int width;
     private final int height;
     private final int depth;
-    private final ICoordinateSystem coordinateSystem;
 
-    public TerrainData(int width, int height, int depth, ICoordinateSystem coordinateSystem) {
+    public TerrainData(int width, int height, int depth) {
         this.width = width;
         this.height = height;
         this.depth = depth;
-        this.coordinateSystem = coordinateSystem;
-        this.heightMap = new float[width][height];
+        this.heightMap = new int[width][height];
     }
 
-    public float toWorldX(int x) {
-        return coordinateSystem.toWorldX(x);
-    }
-    public float toWorldY(int y) {
-        return coordinateSystem.toWorldY(y);
-    }
-    public float toWorldZ(int z) {
-        return coordinateSystem.toWorldZ(z);
-    }
-
-    public void setHeight(int x, int y, float value) {
+    public void setHeight(int x, int y, int value) {
+        if (value < 0)
+            value = Math.max(value, -1*depth);
+        else
+            value = Math.min(value, depth);
         heightMap[x][y] = value;
     }
 
-    public float getHeight(int x, int y) {
+    public int getHeight(int x, int y) {
         return heightMap[x][y];
     }
 

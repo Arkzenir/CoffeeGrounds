@@ -2,12 +2,10 @@
 package Generator;
 
 import Generator.Biomes.*;
-import Generator.Coordinates.*;
 import Generator.Features.*;
 import Generator.Options.*;
 import Generator.Placements.*;
 import Utils.*;
-import Generator.Interfaces.ICoordinateSystem;
 import Generator.Interfaces.ITerrainGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -38,19 +36,11 @@ public class TerrainRunner {
             basePath = Path.of(""); // current directory or empty since files will be internal
         }
 
-        // Explicit switch for coordinate system (Better demonstration compared to strategy class)
-        ICoordinateSystem coordinateSystem;
-        switch (config.coordinateSystem) {
-            case DISCRETE -> coordinateSystem = new DiscreteCoordinateSystem();
-            case CONTINUOUS -> coordinateSystem = new ContCoordinateSystem();
-            default -> throw new IllegalStateException("Unexpected value: " + config.coordinateSystem);
-        }
-
         // Explicit switch for terrain generator (Better demonstration compared to strategy class)
         ITerrainGenerator generator;
         switch (config.generatorType) {
-            case PERLIN -> generator = new PerlinTerrainGenerator(config, coordinateSystem);
-            case SIMPLE -> generator = new SimpleTerrainGenerator(config, coordinateSystem);
+            case PERLIN -> generator = new PerlinTerrainGenerator(config);
+            case SIMPLE -> generator = new SimpleTerrainGenerator(config);
             default -> throw new IllegalStateException("Unexpected value: " + config.generatorType);
         }
 
@@ -80,12 +70,12 @@ public class TerrainRunner {
         FeaturePlacementConfig featureConfig = mapper.readValue(featureStream, FeaturePlacementConfig.class);
         for (FeaturePlacement placement : featureConfig.features) {
             if (!PlacementUtils.isPositionInBounds(placement.x, placement.y, config.width, config.height)) continue;
-            float elevation = terrain.heightMap[placement.x][placement.y];
+            float elevation = terrain.getHeight(placement.x, placement.y);
             if (!placement.isValid(elevation)) continue;
 
             String path = config.featureDirectory + "/" + placement.file;
             JsonFeature feature = FeatureFactory.loadFromFile(basePath.resolve(path).toString());
-            feature.applyFeature(terrain.heightMap, placement.x, placement.y);
+            feature.applyFeature(terrain, placement.x, placement.y);
         }
 
         JsonBiome defaultBiome = biomeMask[0][0]; // fallback

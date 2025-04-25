@@ -1,9 +1,9 @@
 {
   "width": 200,
   "height": 100,
-  "seed": 1234,
+  "seed": 0,
   "generatorType": "perlin",
-  "coordinateSystem": "discrete",
+  "coordinateExportType": "discrete",
   "biomeDirectory": "resources/biomes/",
   "featureDirectory": "resources/features/",
   "biomePlacementPath": "resources/biome_placement.json",

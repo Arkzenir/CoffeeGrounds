@@ -1,25 +1,62 @@
 package Generator.Features;
 
 import Generator.Interfaces.IAddition;
+import Generator.TerrainData;
 
 public class JsonFeature implements IAddition {
     public String name;
     public int radius;
     public float elevationBoost;
+    public Float flattenAmount = null;
 
-    public void applyFeature(float[][] heightMap, int centerX, int centerY) {
-        int width = heightMap.length;
-        int height = heightMap[0].length;
+    public void applyFeature(TerrainData terrain, int centerX, int centerY) {
+        int width = terrain.getWidth();
+        int height = terrain.getHeight();
 
-        for (int x = -radius; x <= radius; x++) {
-            for (int y = -radius; y <= radius; y++) {
-                int dx = centerX + x;
-                int dy = centerY + y;
-                if (dx >= 0 && dx < width && dy >= 0 && dy < height) {
-                    float distance = (float) Math.sqrt(x * x + y * y);
+        // Collect base height samples in the area
+        int sampleCount = 0;
+        int totalHeight = 0;
+        for (int dx = -radius; dx <= radius; dx++) {
+            for (int dy = -radius; dy <= radius; dy++) {
+                int x = centerX + dx;
+                int y = centerY + dy;
+
+                if (x >= 0 && x < width && y >= 0 && y < height) {
+                    double distance = Math.sqrt(dx * dx + dy * dy);
                     if (distance <= radius) {
-                        float effect = (1 - (distance / radius)) * elevationBoost;
-                        heightMap[dx][dy] = Math.min(1.0f, heightMap[dx][dy] + effect);
+                        totalHeight += terrain.getHeight(x, y);
+                        sampleCount++;
+                    }
+                }
+            }
+        }
+
+        int averageHeight = sampleCount > 0 ? totalHeight / sampleCount : 0;
+
+        // Apply effect
+        for (int dx = -radius; dx <= radius; dx++) {
+            for (int dy = -radius; dy <= radius; dy++) {
+                int x = centerX + dx;
+                int y = centerY + dy;
+
+                if (x >= 0 && x < width && y >= 0 && y < height) {
+                    double distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance <= radius) {
+                        double falloff = 1.0 - (distance / radius);
+                        double effect = falloff * elevationBoost;
+                        int intEffect = (int) Math.round(effect);
+
+                        int originalHeight = terrain.getHeight(x, y);
+                        int baseHeight = originalHeight;
+
+                        if (flattenAmount != null && flattenAmount > 0.0f) {
+                            // Blend toward average height
+                            baseHeight = (int) Math.round(
+                                    (1 - flattenAmount) * originalHeight + flattenAmount * averageHeight
+                            );
+                        }
+
+                        terrain.setHeight(x, y, baseHeight + intEffect);
                     }
                 }
             }

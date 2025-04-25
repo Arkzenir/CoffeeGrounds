@@ -10,8 +10,8 @@ public class TerrainConfig {
     public String featureDirectory;
     public String biomePlacementPath;
     public String featurePlacementPath;
+    public CoordinateExportType coordinateExportType = CoordinateExportType.DISCRETE;
     public GeneratorType generatorType = GeneratorType.SIMPLE;
-    public CoordinateSystemType coordinateSystem = CoordinateSystemType.CONTINUOUS;
     public long seed = System.currentTimeMillis();
 
     //Set seed randomly if none or zero

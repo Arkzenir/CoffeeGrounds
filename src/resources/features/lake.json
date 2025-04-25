@@ -1,5 +1,5 @@
 {
   "name": "Lake",
-  "radius": 15,
-  "elevationBoost": -0.2
+  "radius": 60,
+  "elevationBoost": -10
 }
