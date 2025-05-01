@@ -1,5 +1,6 @@
 {
   "name": "Hill",
-  "radius": 50,
-  "elevationBoost": 20
+  "radius": 25,
+  "elevationBoost": 20,
+  "flattenAmount": 0.4
 }

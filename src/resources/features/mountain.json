@@ -1,5 +1,6 @@
 {
   "name": "Mountain",
-  "radius": 80,
-  "elevationBoost": 100
+  "radius": 40,
+  "elevationBoost": 100,
+  "flattenAmount": 0.7
 }

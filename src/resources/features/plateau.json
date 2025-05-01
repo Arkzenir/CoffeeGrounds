@@ -1,5 +1,6 @@
 {
   "name": "Plateau",
-  "radius": 50,
-  "elevationBoost": 10
+  "radius": 20,
+  "elevationBoost": 10,
+  "flattenAmount": 0.6
 }

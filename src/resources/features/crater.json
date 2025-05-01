@@ -1,5 +1,6 @@
 {
   "name": "Crater",
-  "radius": 48,
-  "elevationBoost": -60
+  "radius": 14,
+  "elevationBoost": -60,
+  "flattenAmount": 0.1
 }
