@@ -1,0 +1,10 @@
+{
+  "width": 200,
+  "height": 100,
+  "seed": 0,
+  "generatorType": "perlin",
+  "biomeDirectory": "biomes/",
+  "featureDirectory": "features/",
+  "biomePlacementPath": "biome_placement.json",
+  "featurePlacementPath": "feature_placement.json"
+}

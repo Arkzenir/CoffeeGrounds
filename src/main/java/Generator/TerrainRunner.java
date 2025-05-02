@@ -9,6 +9,7 @@ import Utils.*;
 import Generator.Interfaces.ITerrainGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +22,8 @@ public class TerrainRunner {
         ObjectMapper mapper = new ObjectMapper();
         TerrainConfig config;
         Path basePath;
+
+
 
         // Load the config from CLI or fallback to internal resource
         if (args.length > 0) {
@@ -51,6 +54,7 @@ public class TerrainRunner {
         Map<String, JsonBiome> biomeMap = new HashMap<>();
 
         InputStream biomeStream = getInputStream(basePath, config.biomePlacementPath);
+
         BiomePlacementConfig biomeConfig = mapper.readValue(biomeStream, BiomePlacementConfig.class);
         for (BiomePlacement rule : biomeConfig.biomeRules) {
             String path = config.biomeDirectory + "/" + rule.file;
