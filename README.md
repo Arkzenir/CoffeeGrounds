@@ -42,7 +42,7 @@ main/
 # Navigate to the root directory
 cd coffee_grounds
 
-# Compile and package the project
+# Compile and package the project (You must use Java 21)
 mvn clean install
 
 # Run the terrain generator using the internal config (resources/config.json)
