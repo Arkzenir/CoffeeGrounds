@@ -9,7 +9,6 @@ import Utils.*;
 import Generator.Interfaces.ITerrainGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,7 +73,7 @@ public class TerrainRunner {
         FeaturePlacementConfig featureConfig = mapper.readValue(featureStream, FeaturePlacementConfig.class);
         for (FeaturePlacement placement : featureConfig.features) {
             if (!PlacementUtils.isPositionInBounds(placement.x, placement.y, config.width, config.height)) continue;
-            float elevation = terrain.getHeight(placement.x, placement.y);
+            float elevation = terrain.getDepthAt(placement.x, placement.y);
             if (!placement.isValid(elevation)) continue;
 
             String path = config.featureDirectory + "/" + placement.file;

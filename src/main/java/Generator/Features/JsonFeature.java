@@ -24,7 +24,7 @@ public class JsonFeature implements IAddition {
                 if (x >= 0 && x < width && y >= 0 && y < height) {
                     double distance = Math.sqrt(dx * dx + dy * dy);
                     if (distance <= radius) {
-                        totalHeight += terrain.getHeight(x, y);
+                        totalHeight += terrain.getDepthAt(x, y);
                         sampleCount++;
                     }
                 }
@@ -46,17 +46,17 @@ public class JsonFeature implements IAddition {
                         double effect = falloff * elevationBoost;
                         int intEffect = (int) Math.round(effect);
 
-                        int originalHeight = terrain.getHeight(x, y);
-                        int baseHeight = originalHeight;
+                        int originalHeight = terrain.getDepthAt(x, y);
+                        int baseDepth = originalHeight;
 
                         if (flattenAmount != null && flattenAmount > 0.0f) {
                             // Blend toward average height
-                            baseHeight = (int) Math.round(
+                            baseDepth = (int) Math.round(
                                     (1 - flattenAmount) * originalHeight + flattenAmount * averageHeight
                             );
                         }
 
-                        terrain.setHeight(x, y, baseHeight + intEffect);
+                        terrain.setDepthAt(x, y, baseDepth + intEffect);
                     }
                 }
             }

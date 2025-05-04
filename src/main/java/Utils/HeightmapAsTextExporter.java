@@ -13,7 +13,7 @@ public class HeightmapAsTextExporter implements ITerrainExporter {
         try (FileWriter writer = new FileWriter(directoryPath + "/heightmap.txt")) {
             for (int y = 0; y < data.getHeight(); y++) {
                 for (int x = 0; x < data.getWidth(); x++) {
-                    float value = data.getHeight(x, y);
+                    float value = data.getDepthAt(x, y);
                     if (Math.abs(value - Math.round(value)) < 0.001f) {
                         writer.write(String.format("%d", Math.round(value)));
                     } else {
