@@ -23,8 +23,8 @@ public class PerlinTerrainGenerator implements ITerrainGenerator {
             for (int y = 0; y < config.height; y++) {
                 float noise = perlin.noise(x * scale, y * scale);
                 // Map noise in [0,1] to integer depth [-depth/2, +depth/2)
-                int height = (int) ((noise - 0.5f) * config.depth);
-                data.setHeight(x, y, height);
+                int depth = (int) ((noise - 0.5f) * config.depth);
+                data.setDepthAt(x, y, depth);
             }
         }
 

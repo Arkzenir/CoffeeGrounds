@@ -23,7 +23,7 @@ public class HeightmapAsImageExporter implements ITerrainExporter {
         float max = -Float.MAX_VALUE;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                float val = data.getHeight(x, y);
+                float val = data.getDepthAt(x, y);
                 if (val < min) min = val;
                 if (val > max) max = val;
             }
@@ -31,7 +31,7 @@ public class HeightmapAsImageExporter implements ITerrainExporter {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                float value = data.getHeight(x, y);
+                float value = data.getDepthAt(x, y);
                 int intensity = (int) (255 * (value - min) / (max - min));
                 Color gray = new Color(intensity, intensity, intensity);
                 image.setRGB(x, y, gray.getRGB());

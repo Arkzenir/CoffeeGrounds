@@ -20,8 +20,8 @@ public class SimpleTerrainGenerator implements ITerrainGenerator {
         int noiseRange = config.depth;
         for (int x = 0; x < config.width; x++) {
             for (int y = 0; y < config.height; y++) {
-                int height = rand.nextInt(noiseRange) - noiseRange / 2;
-                data.setHeight(x, y, height);
+                int depth = rand.nextInt(noiseRange) - noiseRange / 2;
+                data.setDepthAt(x, y, depth);
             }
         }
 
