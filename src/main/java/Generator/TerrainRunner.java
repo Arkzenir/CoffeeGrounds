@@ -22,8 +22,6 @@ public class TerrainRunner {
         TerrainConfig config;
         Path basePath;
 
-
-
         // Load the config from CLI or fallback to internal resource
         if (args.length > 0) {
             Path configPath = Path.of(args[0]);

@@ -1,4 +1,4 @@
-package Util;
+package Generator;
 
 import Generator.Placements.PlacementArea;
 import org.junit.jupiter.api.Test;
